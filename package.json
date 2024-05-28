@@ -2,7 +2,7 @@
   "name": "kadecs-cms",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "CMS application for Kadecs app",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
