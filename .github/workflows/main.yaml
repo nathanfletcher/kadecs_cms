@@ -27,18 +27,18 @@ jobs:
             version: '>= 363.0.0'
 
       - name: Build Docker image
-        run: docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/kadecs_cms .
+        run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms .
 
       - name: Authenticate Docker with Google Cloud
         run: gcloud auth configure-docker
 
       - name: Push Docker image to Google Cloud Registry
-        run: docker push gcr.io/${{ secrets.GCP_PROJECT }}/kadecs_cms:latest
+        run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
           gcloud run deploy flutter-endpoints \
-            --image gcr.io/${{ secrets.GCP_PROJECT }}/kadecs_cms:latest \
+            --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
             --platform managed \
             --region ${{secrets.REGION}} \
             --allow-unauthenticated
