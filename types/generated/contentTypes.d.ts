@@ -362,6 +362,37 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiGesSubjectPageGesSubjectPage extends Schema.CollectionType {
+  collectionName: 'ges_subject_pages';
+  info: {
+    singularName: 'ges-subject-page';
+    pluralName: 'ges-subject-pages';
+    displayName: 'GES SUBJECT PAGE';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    SubjectName: Attribute.String;
+    SubjectDescription: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::ges-subject-page.ges-subject-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::ges-subject-page.ges-subject-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -798,6 +829,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::ges-subject-page.ges-subject-page': ApiGesSubjectPageGesSubjectPage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;

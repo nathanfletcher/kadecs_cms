@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ges_subject_pages",
+  "info": {
+    "singularName": "ges-subject-page",
+    "pluralName": "ges-subject-pages",
+    "displayName": "GES SUBJECT PAGE"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "SubjectName": {
+      "type": "string"
+    },
+    "SubjectDescription": {
+      "type": "text"
+    }
+  }
+}
