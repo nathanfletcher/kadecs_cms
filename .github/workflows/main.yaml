@@ -14,10 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Login to Google Cloud
-        uses: google/cloud-actions/setup-gcloud@v2
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }} # Replace with your service account key
+            service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+            version: '>= 363.0.0'
 
       - name: Build Docker image
         run: docker build -t gcr.io/$PROJECT_ID/kadecs_cms .
