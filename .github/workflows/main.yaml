@@ -41,5 +41,6 @@ jobs:
             --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
             --platform managed \
             --region ${{env.REGION}} \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port ${{env.PORT}}
 
