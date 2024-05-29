@@ -25,12 +25,12 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
             version: '>= 363.0.0'
+        # Temporarily removing build step
+    #   - name: Build Docker image
+    #     run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms .
 
-      - name: Build Docker image
-        run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms .
-
-      - name: Authenticate Docker with Google Cloud
-        run: gcloud auth configure-docker
+    #   - name: Authenticate Docker with Google Cloud
+    #     run: gcloud auth configure-docker
 
       - name: Push Docker image to Google Cloud Registry
         run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
