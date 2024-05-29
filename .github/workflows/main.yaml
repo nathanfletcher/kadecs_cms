@@ -42,5 +42,5 @@ jobs:
             --platform managed \
             --region ${{env.REGION}} \
             --allow-unauthenticated \
-            --port ${{env.PORT}}
+            --port ${{secrets.PORT}}
 
