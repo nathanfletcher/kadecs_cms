@@ -20,18 +20,18 @@ jobs:
           service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }} # Replace with your service account key
 
       - name: Build Docker image
-        run: docker build -t gcr.io/$PROJECT_ID/flutter-endpoints .
+        run: docker build -t gcr.io/$PROJECT_ID/kadecs_cms .
 
       - name: Authenticate Docker with Google Cloud
         run: gcloud auth configure-docker
 
       - name: Push Docker image to Google Cloud Registry
-        run: docker push gcr.io/$PROJECT_ID/flutter-endpoints:latest
+        run: docker push gcr.io/$PROJECT_ID/kadecs_cms:latest
 
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
           gcloud run deploy flutter-endpoints \
-            --image gcr.io/$PROJECT_ID/flutter-endpoints:latest \
+            --image gcr.io/$PROJECT_ID/kadecs_cms:latest \
             --platform managed \
             --region $REGION \
             --allow-unauthenticated
