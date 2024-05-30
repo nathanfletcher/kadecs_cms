@@ -5,6 +5,7 @@ on:
     branches: [ main ]
 
 env:
+  GH_TOKEN: ${{ github.token }}
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Replace with your GCP project ID
   REGION: us-central1 # Replace with your desired region
   HOST: $(echo-n "secrets.HOST"|base64-d)
@@ -90,11 +91,11 @@ jobs:
         run: |
           sh update_cloudrun_secrets.sh
 
-      - name: Deploy to Cloud Run (using pre-built image)
-        run: |
-          gcloud run deploy flutter-endpoints \
-            --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
-            --platform managed \
-            --region ${{ env.REGION }} \
-            --allow-unauthenticated \
-            --port 1337
+      # - name: Deploy to Cloud Run (using pre-built image)
+      #   run: |
+      #     gcloud run deploy flutter-endpoints \
+      #       --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
+      #       --platform managed \
+      #       --region ${{ env.REGION }} \
+      #       --allow-unauthenticated \
+      #       --port 1337
