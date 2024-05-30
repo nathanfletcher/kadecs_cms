@@ -46,4 +46,4 @@ jobs:
             --platform managed \
             --region europe-west1 \
             --allow-unauthenticated \
-            --port ${{ secrets.REGION }}
+            --port 1337

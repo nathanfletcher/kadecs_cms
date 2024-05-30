@@ -19,7 +19,7 @@ COPY package*.json ./
 RUN yarn install
 
 # Build Admin Frontend
-RUN yarn build
+# RUN yarn build
 
 EXPOSE 1337
 
