@@ -38,9 +38,6 @@ jobs:
       - name: Decode Secrets and Update Cloud Run Service
         run: |
           sh update_secrets.sh
-        env:
-          # Inherit all environment variables from the runner, except for secrets
-          **!SECRET_*  # Excludes any variable starting with SECRET_
 
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
@@ -49,4 +46,4 @@ jobs:
             --platform managed \
             --region europe-west1 \
             --allow-unauthenticated \
-            --port 1337
+            --port ${{ secrets.REGION }}
