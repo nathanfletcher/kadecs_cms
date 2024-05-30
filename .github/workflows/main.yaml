@@ -35,6 +35,15 @@ jobs:
       - name: Push Docker image to Google Cloud Registry
         run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
+      - name: Update Cloud Run Secrets
+        uses: actions/checkout@v3
+      - name: Decode Secrets and Update Service
+        run: |
+          sh update_secrets.sh
+        env:
+          # Inherit all environment variables from the runner
+          **
+          
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
           gcloud run deploy flutter-endpoints \
