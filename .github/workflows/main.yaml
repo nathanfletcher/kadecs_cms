@@ -26,14 +26,14 @@ jobs:
         with:
             version: '>= 363.0.0'
 
-      - name: Build Docker image
-        run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest .
+      # - name: Build Docker image
+      #   run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest .
 
-      - name: Authenticate Docker with Google Cloud
-        run: gcloud auth configure-docker
+      # - name: Authenticate Docker with Google Cloud
+      #   run: gcloud auth configure-docker
 
-      - name: Push Docker image to Google Cloud Registry
-        run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
+      # - name: Push Docker image to Google Cloud Registry
+      #   run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
       - name: Decode Secrets and Update Cloud Run Service
         run: |

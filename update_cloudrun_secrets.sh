@@ -4,7 +4,7 @@
 service_name=${CLOUD_RUN_SERVICE_NAME}
 
 # Get all repository secrets
-secrets=$(gh secrets list --json | jq -r '.[].name')
+secrets=$(gh secret list --json | jq -r '.[].name')
 
 # Loop through each secret
 for secret in $secrets; do
