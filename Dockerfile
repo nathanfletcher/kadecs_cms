@@ -8,7 +8,9 @@ WORKDIR /usr/src/app
 # Copy local code to the container image.
 COPY . ./
 
-RUN ls
+RUN echo "Available environment variables:" && env
+
+RUN echo "Available db variables: $DATABASE_CLIENT" 
 
 # Copy application dependency manifests to the container image.
 # A wildcard is used to ensure both package.json AND package-lock.json are copied.
