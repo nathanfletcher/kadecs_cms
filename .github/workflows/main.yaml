@@ -40,7 +40,7 @@ jobs:
           gcloud run deploy flutter-endpoints \
             --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
             --platform managed \
-            --region ${{env.REGION}} \
+            --region europe-west1 \
             --allow-unauthenticated \
             --port 1337
 
