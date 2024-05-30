@@ -21,7 +21,11 @@ fs.readFile(fileName, 'utf8', (err, data) => {
 
   const exec = require('child_process').exec;
 
-  Object.entries(secrets).forEach(([key, value]) => {
+  /* Object.entries(secrets).forEach(([key, value]) => {
     console.log(`${key}: $(echo-n "secrets.${key}"|base64-d)`)
+  }); */
+
+  Object.entries(secrets).forEach(([key, value]) => {
+    console.log(`"${key}=$`+"{{ secrets."+`${key}`+"}}"+`"`)
   });
 });
