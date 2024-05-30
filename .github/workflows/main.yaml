@@ -55,9 +55,9 @@ jobs:
       - name: Push Docker image to Google Cloud Registry
         run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
-      - name: Decode Secrets and Update Cloud Run Service
-        run: |
-          sh update_cloudrun_secrets.sh
+      # - name: Decode Secrets and Update Cloud Run Service
+      #   run: |
+      #     sh update_cloudrun_secrets.sh
 
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
