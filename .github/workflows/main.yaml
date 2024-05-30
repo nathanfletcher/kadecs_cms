@@ -49,46 +49,46 @@ jobs:
       # - name: Build Docker image
       #   run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest .
 
-      - name: Build the app image
-        uses: docker/build-push-action@v4
-        with:
-          push: false
-          context: .
-          file: Dockerfile
-          platforms: linux/amd64
-          tags: gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
-          secrets: |
-            "HOST=${{ secrets.HOST}}"
-            "PORT=${{ secrets.PORT}}"
-            "APP_KEYS=${{ secrets.APP_KEYS}}"
-            "API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT}}"
-            "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET}}"
-            "TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT}}"
-            "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT}}"
-            "DATABASE_HOST=${{ secrets.DATABASE_HOST}}"
-            "DATABASE_PORT=${{ secrets.DATABASE_PORT}}"
-            "DATABASE_NAME=${{ secrets.DATABASE_NAME}}"
-            "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME}}"
-            "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}"
-            "DATABASE_SSL=${{ secrets.DATABASE_SSL}}"
-            "JWT_SECRET=${{ secrets.JWT_SECRET}}"
-            "DEPLOY_HOOK_VERCEL=${{ secrets.DEPLOY_HOOK_VERCEL}}"
-            "API_TOKEN_VERCEL=${{ secrets.API_TOKEN_VERCEL}}"
-            "APP_FILTER_VERCEL=${{ secrets.APP_FILTER_VERCEL}}"
-            "GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}}"
-            "GCP_SERVICE_ACCOUNT=${{ secrets.GCP_SERVICE_ACCOUNT}}"
-            "CLOUD_RUN_SERVICE_NAME=${{ secrets.CLOUD_RUN_SERVICE_NAME}}"
-            "REGION=${{ secrets.REGION}}"
+      # - name: Build the app image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     context: .
+      #     file: Dockerfile
+      #     platforms: linux/amd64
+      #     tags: gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
+      #     secrets: |
+      #       "HOST=${{ secrets.HOST}}"
+      #       "PORT=${{ secrets.PORT}}"
+      #       "APP_KEYS=${{ secrets.APP_KEYS}}"
+      #       "API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT}}"
+      #       "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET}}"
+      #       "TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT}}"
+      #       "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT}}"
+      #       "DATABASE_HOST=${{ secrets.DATABASE_HOST}}"
+      #       "DATABASE_PORT=${{ secrets.DATABASE_PORT}}"
+      #       "DATABASE_NAME=${{ secrets.DATABASE_NAME}}"
+      #       "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME}}"
+      #       "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}"
+      #       "DATABASE_SSL=${{ secrets.DATABASE_SSL}}"
+      #       "JWT_SECRET=${{ secrets.JWT_SECRET}}"
+      #       "DEPLOY_HOOK_VERCEL=${{ secrets.DEPLOY_HOOK_VERCEL}}"
+      #       "API_TOKEN_VERCEL=${{ secrets.API_TOKEN_VERCEL}}"
+      #       "APP_FILTER_VERCEL=${{ secrets.APP_FILTER_VERCEL}}"
+      #       "GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}}"
+      #       "GCP_SERVICE_ACCOUNT=${{ secrets.GCP_SERVICE_ACCOUNT}}"
+      #       "CLOUD_RUN_SERVICE_NAME=${{ secrets.CLOUD_RUN_SERVICE_NAME}}"
+      #       "REGION=${{ secrets.REGION}}"
 
-      - name: Authenticate Docker with Google Cloud
-        run: gcloud auth configure-docker
+      # - name: Authenticate Docker with Google Cloud
+      #   run: gcloud auth configure-docker
 
-      - name: Push Docker image to Google Cloud Registry
-        run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
+      # - name: Push Docker image to Google Cloud Registry
+      #   run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
-      # - name: Decode Secrets and Update Cloud Run Service
-      #   run: |
-      #     sh update_cloudrun_secrets.sh
+      - name: Decode Secrets and Update Cloud Run Service
+        run: |
+          sh update_cloudrun_secrets.sh
 
       - name: Deploy to Cloud Run (using pre-built image)
         run: |
