@@ -34,7 +34,7 @@ jobs:
       - name: Build the app image
         uses: docker/build-push-action@v4
         with:
-          push: true
+          push: false
           context: .
           file: Dockerfile
           platforms: linux/amd64
