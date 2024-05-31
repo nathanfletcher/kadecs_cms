@@ -7,7 +7,7 @@ on:
 env:
   GH_TOKEN: ${{ github.token }}
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Replace with your GCP project ID
-  REGION: us-central1 # Replace with your desired region
+  REGION: ${{ secrets.REGION }} # Replace with your desired region
   
 
 jobs:

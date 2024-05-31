@@ -41,7 +41,7 @@ fs.readFile(fileName, 'utf8', (err, data) => {
     });
   }); */
   
-  const command = `gcloud run services update ${service_name} --update-env-varsd ${output} --region "europe-west1"`;
+  const command = `gcloud run services update ${service_name} --update-env-vars ${output} --region "europe-west1"`;
   exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error setting env variables`, error);
