@@ -15,6 +15,7 @@ for ghsecret in $ghsecrets; do
   if [[ ! -z "$decoded_value" ]]; then
     gcloud run services update "$service_name" \
       --update-env-vars "$secret=$decoded_value"
+    echo "updated ${ghsecret} env variable"
   fi
 done
 
