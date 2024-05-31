@@ -8,26 +8,7 @@ env:
   GH_TOKEN: ${{ github.token }}
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Replace with your GCP project ID
   REGION: us-central1 # Replace with your desired region
-  HOST: $(echo-n "secrets.HOST"|base64-d)
-  PORT: $(echo-n "secrets.PORT"|base64-d)
-  APP_KEYS: $(echo-n "secrets.APP_KEYS"|base64-d)
-  API_TOKEN_SALT: $(echo-n "secrets.API_TOKEN_SALT"|base64-d)
-  ADMIN_JWT_SECRET: $(echo-n "secrets.ADMIN_JWT_SECRET"|base64-d)
-  TRANSFER_TOKEN_SALT: $(echo-n "secrets.TRANSFER_TOKEN_SALT"|base64-d)
-  DATABASE_CLIENT: $(echo-n "secrets.DATABASE_CLIENT"|base64-d)
-  DATABASE_HOST: $(echo-n "secrets.DATABASE_HOST"|base64-d)
-  DATABASE_PORT: $(echo-n "secrets.DATABASE_PORT"|base64-d)
-  DATABASE_NAME: $(echo-n "secrets.DATABASE_NAME"|base64-d)
-  DATABASE_USERNAME: $(echo-n "secrets.DATABASE_USERNAME"|base64-d)
-  DATABASE_PASSWORD: $(echo-n "secrets.DATABASE_PASSWORD"|base64-d)
-  DATABASE_SSL: $(echo-n "secrets.DATABASE_SSL"|base64-d)
-  JWT_SECRET: $(echo-n "secrets.JWT_SECRET"|base64-d)
-  DEPLOY_HOOK_VERCEL: $(echo-n "secrets.DEPLOY_HOOK_VERCEL"|base64-d)
-  API_TOKEN_VERCEL: $(echo-n "secrets.API_TOKEN_VERCEL"|base64-d)
-  APP_FILTER_VERCEL: $(echo-n "secrets.APP_FILTER_VERCEL"|base64-d)
-  GCP_PROJECT_ID: $(echo-n "secrets.GCP_PROJECT_ID"|base64-d)
-  GCP_SERVICE_ACCOUNT: $(echo-n "secrets.GCP_SERVICE_ACCOUNT"|base64-d)
-  CLOUD_RUN_SERVICE_NAME: $(echo-n "secrets.CLOUD_RUN_SERVICE_NAME"|base64-d)
+  
 
 jobs:
   build-and-deploy:
@@ -47,55 +28,55 @@ jobs:
         with:
             version: '>= 363.0.0'
 
-      # - name: Build Docker image
-      #   run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest .
+      - name: Build Docker image
+        run: docker build -t gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest .
 
-      # - name: Build the app image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     push: true
-      #     context: .
-      #     file: Dockerfile
-      #     platforms: linux/amd64
-      #     tags: gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
-      #     secrets: |
-      #       "HOST=${{ secrets.HOST}}"
-      #       "PORT=${{ secrets.PORT}}"
-      #       "APP_KEYS=${{ secrets.APP_KEYS}}"
-      #       "API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT}}"
-      #       "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET}}"
-      #       "TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT}}"
-      #       "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT}}"
-      #       "DATABASE_HOST=${{ secrets.DATABASE_HOST}}"
-      #       "DATABASE_PORT=${{ secrets.DATABASE_PORT}}"
-      #       "DATABASE_NAME=${{ secrets.DATABASE_NAME}}"
-      #       "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME}}"
-      #       "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}"
-      #       "DATABASE_SSL=${{ secrets.DATABASE_SSL}}"
-      #       "JWT_SECRET=${{ secrets.JWT_SECRET}}"
-      #       "DEPLOY_HOOK_VERCEL=${{ secrets.DEPLOY_HOOK_VERCEL}}"
-      #       "API_TOKEN_VERCEL=${{ secrets.API_TOKEN_VERCEL}}"
-      #       "APP_FILTER_VERCEL=${{ secrets.APP_FILTER_VERCEL}}"
-      #       "GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}}"
-      #       "GCP_SERVICE_ACCOUNT=${{ secrets.GCP_SERVICE_ACCOUNT}}"
-      #       "CLOUD_RUN_SERVICE_NAME=${{ secrets.CLOUD_RUN_SERVICE_NAME}}"
-      #       "REGION=${{ secrets.REGION}}"
+      - name: Build the app image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64
+          tags: gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
+          secrets: |
+            "HOST=${{ secrets.HOST}}"
+            "PORT=${{ secrets.PORT}}"
+            "APP_KEYS=${{ secrets.APP_KEYS}}"
+            "API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT}}"
+            "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET}}"
+            "TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT}}"
+            "DATABASE_CLIENT=${{ secrets.DATABASE_CLIENT}}"
+            "DATABASE_HOST=${{ secrets.DATABASE_HOST}}"
+            "DATABASE_PORT=${{ secrets.DATABASE_PORT}}"
+            "DATABASE_NAME=${{ secrets.DATABASE_NAME}}"
+            "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME}}"
+            "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}"
+            "DATABASE_SSL=${{ secrets.DATABASE_SSL}}"
+            "JWT_SECRET=${{ secrets.JWT_SECRET}}"
+            "DEPLOY_HOOK_VERCEL=${{ secrets.DEPLOY_HOOK_VERCEL}}"
+            "API_TOKEN_VERCEL=${{ secrets.API_TOKEN_VERCEL}}"
+            "APP_FILTER_VERCEL=${{ secrets.APP_FILTER_VERCEL}}"
+            "GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}}"
+            "GCP_SERVICE_ACCOUNT=${{ secrets.GCP_SERVICE_ACCOUNT}}"
+            "CLOUD_RUN_SERVICE_NAME=${{ secrets.CLOUD_RUN_SERVICE_NAME}}"
+            "REGION=${{ secrets.REGION}}"
 
-      # - name: Authenticate Docker with Google Cloud
-      #   run: gcloud auth configure-docker
+      - name: Authenticate Docker with Google Cloud
+        run: gcloud auth configure-docker
 
-      # - name: Push Docker image to Google Cloud Registry
-      #   run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
+      - name: Push Docker image to Google Cloud Registry
+        run: docker push gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest
 
-      - name: Decode Secrets and Update Cloud Run Service
-        run: |
-          sh update_cloudrun_secrets.sh
-
-      # - name: Deploy to Cloud Run (using pre-built image)
+      # - name: Decode Secrets and Update Cloud Run Service
       #   run: |
-      #     gcloud run deploy flutter-endpoints \
-      #       --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
-      #       --platform managed \
-      #       --region ${{ env.REGION }} \
-      #       --allow-unauthenticated \
-      #       --port 1337
+      #     sh update_cloudrun_secrets.sh
+
+      - name: Deploy to Cloud Run (using pre-built image)
+        run: |
+          gcloud run deploy flutter-endpoints \
+            --image gcr.io/${{ env.GCP_PROJECT }}/kadecs_cms:latest \
+            --platform managed \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --port 1337
